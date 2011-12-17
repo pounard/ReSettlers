@@ -1,0 +1,133 @@
+{
+    "cereale": {
+        "name": "Céréale",
+        "time": 780,
+        "worker": "Ferme"
+    },
+    "eau": {
+        "name": "Eau",
+        "time": 150,
+        "worker": "Puit I"
+    },
+    "cuivre": {
+        "name": "Cuivre",
+        "time": 225,
+        "worker": "Mine de cuivre"
+    },
+    "mineraifer": {
+        "name": "Minerai de fer",
+        "time": 420,
+        "worker": "Mine de fer"
+    },
+    "sapin": {
+        "name": "Sapin",
+        "time": 200,
+        "worker": "Forestier de sapin"
+    },
+    "feuillu": {
+        "name": "Feuillu",
+        "time": 450,
+        "worker": "Forestier de feuillu"
+    },
+    "boissapin": {
+        "name": "Bois de sapin",
+        "time": 150,
+        "worker": "Bûcheron de sapin",
+        "dependencies": {
+            "sapin": 1
+        }
+    },
+    "boisfeuillu": {
+        "name": "Bois de feuillu",
+        "time": 350,
+        "worker": "Bûcheron de feuillu",
+        "dependencies": {
+            "fueillu": 1
+        }
+    },
+    "planchesapin": {
+        "name": "Planche de sapin",
+        "time": 270,
+        "worker": "Scierie de sapin",
+        "dependencies": {
+            "boissapin": 1
+        }
+    },
+    "planchefeuillu": {
+        "name": "Planche de fueillu",
+        "time": 600,
+        "worker": "Scierie de feuillu",
+        "dependencies": {
+            "boisfeuillu": 1
+        }
+    },
+    "houille": {
+        "name": "Houille",
+        "time": 210,
+        "worker": "Cockerie",
+        "dependencies": {
+            "boissapin": 2
+        }
+    },
+    "bronze": {
+        "name": "Bronze",
+        "time": 410,
+        "worker": "Fonderie de cuivre",
+        "dependencies": {
+            "houille": 1,
+            "cuivre": 1
+        }
+    },
+    "fer": {
+        "name": "Fer",
+        "time": 740,
+        "worker": "Fonderie de fer",
+        "dependencies": {
+            "mineraifer": 4,
+            "houille": 6
+        }
+    },
+    "outil": {
+        "name": "Outil",
+        "time": 430,
+        "worker": "Atelier d'outilleur",
+        "dependencies": {
+            "bronze": 1
+        }
+    },
+    "farine": {
+        "name": "Farine",
+        "time": 400,
+        "worker": "Moulin",
+        "dependencies": {
+            "cereale": 1
+        }
+    },
+    "pain": {
+        "name": "Pain",
+        "time": 230,
+        "worker": "Boulangerie",
+        "dependencies": {
+            "farine": 1,
+            "eau": 2
+        }
+    },
+    "biere": {
+        "name": "Biere",
+        "time": 400,
+        "worker": "Brasserie",
+        "dependencies": {
+            "cereale": 1,
+            "eau": 2
+        }
+    },
+    "epeebronze": {
+        "name": "Épée de bronze",
+        "time": 410,
+        "worker": "Forge d'armement de bronze",
+        "dependencies": {
+            "bronze": 1,
+            "houille": 2
+        }
+    }
+}
