@@ -2,32 +2,38 @@
     "cereale": {
         "name": "Céréale",
         "time": 780,
-        "worker": "Ferme"
+        "worker": "Ferme",
+        "finite": false
     },
     "eau": {
         "name": "Eau",
         "time": 150,
-        "worker": "Puit I"
+        "worker": "Puit I",
+        "finite": false
     },
     "cuivre": {
         "name": "Cuivre",
         "time": 225,
-        "worker": "Mine de cuivre"
+        "worker": "Mine de cuivre",
+        "finite": true
     },
     "mineraifer": {
         "name": "Minerai de fer",
         "time": 420,
-        "worker": "Mine de fer"
+        "worker": "Mine de fer",
+        "finite": true
     },
     "sapin": {
         "name": "Sapin",
         "time": 200,
-        "worker": "Forestier de sapin"
+        "worker": "Forestier de sapin",
+        "finite": false
     },
     "feuillu": {
         "name": "Feuillu",
         "time": 450,
-        "worker": "Forestier de feuillu"
+        "worker": "Forestier de feuillu",
+        "finite": false
     },
     "boissapin": {
         "name": "Bois de sapin",
@@ -35,15 +41,17 @@
         "worker": "Bûcheron de sapin",
         "dependencies": {
             "sapin": 1
-        }
+        },
+        "finite": false
     },
     "boisfeuillu": {
         "name": "Bois de feuillu",
         "time": 350,
         "worker": "Bûcheron de feuillu",
         "dependencies": {
-            "fueillu": 1
-        }
+            "feuillu": 1
+        },
+        "finite": false
     },
     "planchesapin": {
         "name": "Planche de sapin",
@@ -51,15 +59,17 @@
         "worker": "Scierie de sapin",
         "dependencies": {
             "boissapin": 1
-        }
+        },
+        "finite": false
     },
     "planchefeuillu": {
-        "name": "Planche de fueillu",
+        "name": "Planche de feuillu",
         "time": 600,
         "worker": "Scierie de feuillu",
         "dependencies": {
             "boisfeuillu": 1
-        }
+        },
+        "finite": false
     },
     "houille": {
         "name": "Houille",
@@ -67,7 +77,8 @@
         "worker": "Cockerie",
         "dependencies": {
             "boissapin": 2
-        }
+        },
+        "finite": false
     },
     "bronze": {
         "name": "Bronze",
@@ -76,7 +87,8 @@
         "dependencies": {
             "houille": 1,
             "cuivre": 1
-        }
+        },
+        "finite": true
     },
     "fer": {
         "name": "Fer",
@@ -85,7 +97,8 @@
         "dependencies": {
             "mineraifer": 4,
             "houille": 6
-        }
+        },
+        "finite": true
     },
     "outil": {
         "name": "Outil",
@@ -93,7 +106,8 @@
         "worker": "Atelier d'outilleur",
         "dependencies": {
             "bronze": 1
-        }
+        },
+        "finite": true
     },
     "farine": {
         "name": "Farine",
@@ -101,7 +115,8 @@
         "worker": "Moulin",
         "dependencies": {
             "cereale": 1
-        }
+        },
+        "finite": false
     },
     "pain": {
         "name": "Pain",
@@ -110,7 +125,8 @@
         "dependencies": {
             "farine": 1,
             "eau": 2
-        }
+        },
+        "finite": false
     },
     "biere": {
         "name": "Biere",
@@ -119,7 +135,8 @@
         "dependencies": {
             "cereale": 1,
             "eau": 2
-        }
+        },
+        "finite": false
     },
     "epeebronze": {
         "name": "Épée de bronze",
@@ -128,6 +145,26 @@
         "dependencies": {
             "bronze": 1,
             "houille": 2
-        }
+        },
+        "finite": true
+    },
+    "arc": {
+        "name": "Arc",
+        "time": 780,
+        "worker": "Fabricant d'arcs",
+        "dependencies": {
+            "boissapin": 8
+        },
+        "finite": false
+    },
+    "epeefer": {
+        "name": "Épée de fer",
+        "time": 780,
+        "worker": "Forge d'armement de fer",
+        "dependencies": {
+            "fer": 2,
+            "houille": 8
+        },
+        "finite": true
     }
 }

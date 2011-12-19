@@ -9,6 +9,16 @@ namespace ReSettlers;
 class Resolver
 {
     /**
+     * Round buildings count.
+     */
+    const COUNT_ROUND = 0;
+
+    /**
+     * Find common denominator and raise building number.
+     */
+    const COUNT_DENOMINATOR = 1;
+
+    /**
      * Multiplication factor for linearizing resources consumption in order to
      * get an integer number of buildings.
      * @var int
@@ -33,18 +43,37 @@ class Resolver
     protected $workerChain;
 
     /**
+     * Adjust building number mode.
+     * @var int
+     */
+    protected $adjustMode = self::COUNT_ROUND;
+
+    /**
+     * @var float
+     */
+    protected $adjustThreshold = 0.2;
+
+    /**
+     * Resources for which we will never trigger a worker upgrade during
+     * optimization. Mainly for edges.
+     * @var array
+     */
+    protected $neverUpgrade = array();
+
+    /**
      * Resolve dependencies of a single resource.
      * @param ReSettlers\Resource
      * @return ReSettlers\WorkerChain
      */
-    protected function resolveDependencies(Resource $resource, $count = 1) {
+    protected function resolveDependencies(Resource $resource, $count = 1)
+    {
         $worker = $resource->getWorker();
-        $workerHash = spl_object_hash($worker);
+        $resKey = $resource->getKey();
 
-        if (isset($this->workerChain[$workerHash])) {
-            $this->workerChain[$workerHash]->increment($count);
+        if (isset($this->workerChain[$resKey])) {
+            $this->workerChain[$resKey]->increment($count);
         } else {
-            $this->workerChain[$workerHash] = new WorkerSet($worker, $count);
+            $this->workerChain[$resKey] = new WorkerSet($worker, $count);
         }
 
         foreach ($resource->getDependencies() as $dependency) {
@@ -58,23 +87,38 @@ class Resolver
      * Find the full ressource chain needed to build this resource.
      * @return ReSettlers\WorkerChain
      */
-    public function find() {
+    public function find()
+    {
         if (!isset($this->workerChain)) {
             $this->workerChain = array();
-            $this->resolveDependencies($this->targettedResource, $this->count);
+
+            foreach ($this->targets as $resourceOption) {
+                $resource = $resourceOption->getResource();
+                $this->resolveDependencies($resource, $resourceOption->getCount());
+            }
         }
         return $this->workerChain;
     }
 
     /**
-     * Default constructor.
-     * @param ReSettlers\Resource $targettedResource Resource you want to build
-     * @param int $count
-     * @param float $threshold Difference threshold that triggers the common
-     * denominator computation
+     * Set options.
+     * @param array $options Set of options for computation.
      */
-    public function __construct(Resource $targettedResource, $count = 1, $threshold = 0.15) {
-        $this->targettedResource = $targettedResource;
-        $this->count = $count;
+    public function setOptions(array $options)
+    {
+        $this->workerChain = null;
+        $this->workerMaximumLevel = isset($options['workerMaximumLevel']) ? $options['workerMaximumLevel'] : 1;
+        $this->workerUpgrades = isset($options['workerUpgrades']) ? $options['workerUpgrades'] : 0;
+        $this->adjustMode = isset($options['adjustMode']) ? $options['adjustMode'] : self::COUNT_ROUND;
+        $this->adjustThreshold = isset($options['adjustThreshold']) ? $options['adjustThreshold'] : 0.2;
+    }
+
+    /**
+     * Default constructor. 
+     * @param array $targets Array of ReSettlers\ResolverOptions instances
+     */
+    public function __construct(array $targets)
+    {
+        $this->targets = $targets;
     }
 }

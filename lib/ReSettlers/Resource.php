@@ -8,6 +8,12 @@ namespace ReSettlers;
 class Resource
 {
     /**
+     * Internal identifier. This key is dependent on provider.
+     * @var int|string
+     */
+    protected $key;
+
+    /**
      * Human readable name.
      * @var name
      */
@@ -67,14 +73,25 @@ class Resource
     }
 
     /**
+     * Get unique identifier for this resource.
+     * @return int|string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
      * Default constructor.
+     * @param int|string $key Internal identifier
      * @param string $name Human readable name
      * @param int $time Time per cycle, in seconds
      * @param ReSettlers\Worker $worker Worker that build this resource
      * @param array $dependencies Array of ReSettlers\Dependency
      */
-    public function __construct($name, $time, Worker $worker, array $dependencies = array())
+    public function __construct($key, $name, $time, Worker $worker, array $dependencies = array())
     {
+        $this->key = $key;
         $this->name = $name;
         $this->time = $time;
         $this->worker = $worker;

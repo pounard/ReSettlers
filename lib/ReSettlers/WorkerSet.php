@@ -8,6 +8,11 @@ namespace ReSettlers;
 class WorkerSet
 {
     /**
+     * Upgrading is irrevelant.
+     */
+    const UPGRADE_IRREVELANT = -1;
+
+    /**
      * Current node worker.
      * @var ReSettlers\Worker
      */
@@ -20,19 +25,49 @@ class WorkerSet
     protected $count;
 
     /**
-     * Keep the multiplication factory aside of the raw base count, for later
-     * potential modification without loosing track of real consumption.
+     * Building level.
      * @var int
      */
-    protected $factor = 1;
+    protected $level = 1;
 
     /**
-     * Multiply number of worker needed on this node.
-     * @param int $factor
+     * Increase level.
+     * @param int $delta Number of upgrades to do
      */
-    public function multiply($factor)
+    public function upgrade($delta = 1)
     {
-        $this->factor *= $factor;
+        $this->level += $delta;
+    }
+
+    /**
+     * Downgrade level.
+     * @param int $delta Number of upgrades to remove
+     */
+    public function downgrade($delta = 1)
+    {
+        $this->level -= $delta;
+    }
+
+    /**
+     * Return the necessary upgrade delta for having a positive result over the
+     * final count.
+     * @return int
+     */
+    public function getNextRevelantUpgrade()
+    {
+        $currentCount = $this->getFinalCount();
+
+        if (1 === $currentCount) {
+            return self::UPGRADE_IRREVELANT;
+        }
+
+        $level = $this->level;
+
+        do {
+            $newCount = ceil($this->count / ++$level);
+        } while ($newCount === $currentCount && 1 < $newCount);
+
+        return $level;
     }
 
     /**
@@ -54,11 +89,20 @@ class WorkerSet
     }
 
     /**
+     * Get current worker set worker augment level.
+     * @return int
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+    /**
      * Number of needed building of this kind.
      */
     public function getFinalCount()
     {
-        return $this->count * $this->factor;
+        return ceil($this->count / $this->level);
     }
 
     /**
@@ -70,5 +114,10 @@ class WorkerSet
     {
         $this->worker = $worker;
         $this->count = $count;
+    }
+
+    public function __toString()
+    {
+        return $this->worker->getName() . " (" . $this->level . ")";
     }
 }

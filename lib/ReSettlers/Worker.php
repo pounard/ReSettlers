@@ -40,7 +40,7 @@ class Worker
      * Get which resource this worker build per cycle.
      * @return ReSettlers\Resource
      */
-    public function builds()
+    public function getResource()
     {
         return $this->resource;
     }

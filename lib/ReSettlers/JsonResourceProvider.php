@@ -58,7 +58,7 @@ class JsonResourceProvider implements ResourceProvider
                     throw new \RuntimeException("Resource $key has no worker set, or worker is not a valid string.");
                 }
 
-                $this->resources[$key] = new Resource($resdata['name'], $resdata['time'], new Worker($resdata['worker']), $dependencies);
+                $this->resources[$key] = new Resource($key, $resdata['name'], $resdata['time'], new Worker($resdata['worker']), $dependencies);
             } else {
                 throw new \RuntimeException("Resource $key does not exists");
             }

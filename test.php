@@ -1,8 +1,10 @@
 <?php
 
+use ReSettlers\Optimizer\UpgradeOptimizer;
 use ReSettlers\JsonResourceProvider;
 use ReSettlers\Dependency;
 use ReSettlers\Resolver;
+use ReSettlers\ResolverOption;
 use ReSettlers\Resource;
 use ReSettlers\Worker;
 use ReSettlers\WorkerSet;
@@ -22,13 +24,21 @@ spl_autoload_register(function ($className) {
 
 $provider = new JsonResourceProvider(__DIR__ . '/resources/resources.json');
 
-$count = 1;
-$resource = $provider->getResourceByKey('fer');
-
-$resolver = new Resolver($resource, $count);
+$resolver = new Resolver(array(
+    new ResolverOption($provider->getResourceByKey('arc'), 1),
+    new ResolverOption($provider->getResourceByKey('epeefer'), 1),
+    new ResolverOption($provider->getResourceByKey('outil'), 2),
+    new ResolverOption($provider->getResourceByKey('epeebronze'), 2),
+    //new ResolverOption($provider->getResourceByKey('biere'), 2),
+    //new ResolverOption($provider->getResourceByKey('pain'), 2),
+));
+$optimizer = new UpgradeOptimizer();
+$optimizer->setOptions(array(
+    'workerMaximumLevel' => 3,
+));
 $chain = $resolver->find();
-print "Pour faire $count $resource avez besoin de:\n";
-print "De " . $resource->getTime() . " secondes et de\n";
+$optimizer->optimize($chain);
+
 foreach ($chain as $workerSet) {
-    print " - " . $workerSet->getFinalCount() . " x " . $workerSet->getWorker() . "\n";
+    print " - " . $workerSet->getFinalCount() . " x " . $workerSet . "\n";
 }
