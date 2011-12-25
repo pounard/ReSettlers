@@ -1,9 +1,9 @@
 <?php
 
-namespace ReSettlers;
+namespace ReSettlers\Component;
 
 /**
- * Immutable object, this are our edges in the Resource graph.
+ * Immutable dependency object.
  */
 class Dependency
 {

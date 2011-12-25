@@ -1,170 +1,274 @@
 {
-    "cereale": {
-        "name": "Céréale",
-        "time": 780,
-        "worker": "Ferme",
-        "finite": false
-    },
-    "eau": {
-        "name": "Eau",
-        "time": 150,
-        "worker": "Puit I",
-        "finite": false
-    },
-    "cuivre": {
-        "name": "Cuivre",
-        "time": 225,
-        "worker": "Mine de cuivre",
-        "finite": true
-    },
-    "mineraifer": {
-        "name": "Minerai de fer",
-        "time": 420,
-        "worker": "Mine de fer",
-        "finite": true
-    },
-    "sapin": {
-        "name": "Sapin",
-        "time": 200,
-        "worker": "Forestier de sapin",
-        "finite": false
-    },
-    "feuillu": {
-        "name": "Feuillu",
-        "time": 450,
-        "worker": "Forestier de feuillu",
-        "finite": false
-    },
-    "boissapin": {
-        "name": "Bois de sapin",
-        "time": 150,
-        "worker": "Bûcheron de sapin",
-        "dependencies": {
-            "sapin": 1
+    "resources": {
+        "cereale": {
+            "name": "Céréale"
         },
-        "finite": false
-    },
-    "boisfeuillu": {
-        "name": "Bois de feuillu",
-        "time": 350,
-        "worker": "Bûcheron de feuillu",
-        "dependencies": {
-            "feuillu": 1
+        "eau": {
+            "name": "Eau"
         },
-        "finite": false
-    },
-    "planchesapin": {
-        "name": "Planche de sapin",
-        "time": 270,
-        "worker": "Scierie de sapin",
-        "dependencies": {
-            "boissapin": 1
+        "pierre": {
+            "name": "Pierre"
         },
-        "finite": false
-    },
-    "planchefeuillu": {
-        "name": "Planche de feuillu",
-        "time": 600,
-        "worker": "Scierie de feuillu",
-        "dependencies": {
-            "boisfeuillu": 1
+        "marbre": {
+            "name": "Marbre"
         },
-        "finite": false
-    },
-    "houille": {
-        "name": "Houille",
-        "time": 210,
-        "worker": "Cockerie",
-        "dependencies": {
-            "boissapin": 2
+        "granit": {
+            "name": "Granit"
         },
-        "finite": false
-    },
-    "bronze": {
-        "name": "Bronze",
-        "time": 410,
-        "worker": "Fonderie de cuivre",
-        "dependencies": {
-            "houille": 1,
-            "cuivre": 1
+        "cuivre": {
+            "name": "Cuivre"
         },
-        "finite": true
-    },
-    "fer": {
-        "name": "Fer",
-        "time": 740,
-        "worker": "Fonderie de fer",
-        "dependencies": {
-            "mineraifer": 4,
-            "houille": 6
+        "mineraifer": {
+            "name": "Minerai de fer"
         },
-        "finite": true
-    },
-    "outil": {
-        "name": "Outil",
-        "time": 430,
-        "worker": "Atelier d'outilleur",
-        "dependencies": {
-            "bronze": 1
+        "sapin": {
+            "name": "Sapin"
         },
-        "finite": true
-    },
-    "farine": {
-        "name": "Farine",
-        "time": 400,
-        "worker": "Moulin",
-        "dependencies": {
-            "cereale": 1
+        "feuillu": {
+            "name": "Feuillu"
         },
-        "finite": false
-    },
-    "pain": {
-        "name": "Pain",
-        "time": 230,
-        "worker": "Boulangerie",
-        "dependencies": {
-            "farine": 1,
-            "eau": 2
+        "boissapin": {
+            "name": "Bois de sapin"
         },
-        "finite": false
-    },
-    "biere": {
-        "name": "Biere",
-        "time": 400,
-        "worker": "Brasserie",
-        "dependencies": {
-            "cereale": 1,
-            "eau": 2
+        "boisfeuillu": {
+            "name": "Bois de feuillu"
         },
-        "finite": false
-    },
-    "epeebronze": {
-        "name": "Épée de bronze",
-        "time": 410,
-        "worker": "Forge d'armement de bronze",
-        "dependencies": {
-            "bronze": 1,
-            "houille": 2
+        "planchesapin": {
+            "name": "Planche de sapin"
         },
-        "finite": true
-    },
-    "arc": {
-        "name": "Arc",
-        "time": 780,
-        "worker": "Fabricant d'arcs",
-        "dependencies": {
-            "boissapin": 8
+        "planchefeuillu": {
+            "name": "Planche de feuillu"
         },
-        "finite": false
-    },
-    "epeefer": {
-        "name": "Épée de fer",
-        "time": 780,
-        "worker": "Forge d'armement de fer",
-        "dependencies": {
-            "fer": 2,
-            "houille": 8
+        "houille": {
+            "name": "Houille"
         },
-        "finite": true
+        "bronze": {
+            "name": "Bronze"
+        },
+        "fer": {
+            "name": "Fer"
+        },
+        "outil": {
+            "name": "Outil"
+        },
+        "farine": {
+            "name": "Farine"
+        },
+        "pain": {
+            "name": "Pain"
+        },
+        "biere": {
+            "name": "Biere"
+        },
+        "cheval": {
+            "name": "Cheval"
+        },
+        "epeebronze": {
+            "name": "Épée de bronze"
+        },
+        "arc": {
+            "name": "Arc"
+        },
+        "epeefer": {
+            "name": "Épée de fer"
+        }
+    },
+    "workers": {
+        "carrierepierre": {
+            "name": "Carrière de pierre",
+            "time": 390,
+            "builds": "pierre",
+            "finite": false
+        },
+        "carrieremarbre": {
+            "name": "Carrière de marbre",
+            "time": 630,
+            "builds": "marbre",
+            "finite": false
+        },
+        "ferme": {
+            "name": "Ferme",
+            "time": 780,
+            "builds": "cereale",
+            "finite": false
+        },
+        "puit1": {
+            "name": "Puit I",
+            "time": 150,
+            "builds": "eau",
+            "finite": true
+        },
+        "puit2": {
+            "name": "Puit II",
+            "time": 150,
+            "builds": "eau",
+            "finite": true
+        },
+        "minecuivre": {
+            "name": "Mine de cuivre",
+            "time": 225,
+            "builds": "cuivre",
+            "finite": true
+        },
+        "minefer": {
+            "name": "Minerai de fer",
+            "time": 420,
+            "builds": "mineraifer",
+            "finite": true
+        },
+        "forestiersapin": {
+            "name": "Forestier de sapin",
+            "time": 200,
+            "builds": "sapin",
+            "finite": false
+        },
+        "forestierfeuillu": {
+            "name": "Forestier de feuillu",
+            "time": 450,
+            "builds": "feuillu",
+            "finite": false
+        },
+        "bucheronsapin": {
+            "name": "Bûcheron de sapin",
+            "time": 150,
+            "builds": "boissapin",
+            "dependencies": {
+                "sapin": 1
+            },
+            "finite": false
+        },
+        "bucheronfeuillu": {
+            "name": "Bûcheron de feuillu",
+            "time": 350,
+            "builds": "boisfeuillu",
+            "dependencies": {
+                "feuillu": 1
+            },
+            "finite": false
+        },
+        "scieriesapin": {
+            "name": "Scierie de sapin",
+            "time": 270,
+            "builds": "planchesapin",
+            "dependencies": {
+                "boissapin": 1
+            },
+            "finite": false
+        },
+        "scieriefeuillu": {
+            "name": "Scierie de feuillu",
+            "time": 600,
+            "builds": "planchefeuillu",
+            "dependencies": {
+                "boisfeuillu": 1
+            },
+            "finite": false
+        },
+        "cockerie": {
+            "name": "Cockerie",
+            "time": 210,
+            "builds": "houille",
+            "dependencies": {
+                "boissapin": 2
+            },
+            "finite": false
+        },
+        "fonderiebronze": {
+            "name": "Fonderie de cuivre",
+            "time": 410,
+            "builds": "bronze",
+            "dependencies": {
+                "houille": 1,
+                "cuivre": 1
+            },
+            "finite": false
+        },
+        "fonderiefer": {
+            "name": "Fonderie de fer",
+            "time": 740,
+            "builds": "fer",
+            "dependencies": {
+                "mineraifer": 4,
+                "houille": 6
+            },
+            "finite": false
+        },
+        "outilleur": {
+            "name": "Atelier d'outilleur",
+            "time": 430,
+            "builds": "outil",
+            "dependencies": {
+                "bronze": 1
+            },
+            "finite": false
+        },
+        "moulin": {
+            "name": "Moulin",
+            "time": 400,
+            "builds": "farine",
+            "dependencies": {
+                "cereale": 1
+            },
+            "finite": false
+        },
+        "boulangerie": {
+            "name": "Boulangerie",
+            "time": 230,
+            "builds": "pain",
+            "dependencies": {
+                "farine": 1,
+                "eau": 2
+            },
+            "finite": false
+        },
+        "brasserie": {
+            "name": "Brasserie",
+            "time": 400,
+            "builds": "biere",
+            "dependencies": {
+                "cereale": 1,
+                "eau": 2
+            },
+            "finite": false
+        },
+        "ecurie": {
+            "name": "Écurie",
+            "time": 420,
+            "builds": "cheval",
+            "dependencies": {
+                "cereale": 2,
+                "eau": 4
+            },
+            "finite": false
+        },
+        "forgebronze": {
+            "name": "Forge d'armement de bronze",
+            "time": 410,
+            "builds": "epeebronze",
+            "dependencies": {
+                "bronze": 1,
+                "houille": 2
+            },
+            "finite": false
+        },
+        "forgearc": {
+            "name": "Fabricant d'arcs",
+            "time": 780,
+            "builds": "arc",
+            "dependencies": {
+                "boissapin": 8
+            },
+            "finite": false
+        },
+        "forgefer": {
+            "name": "Forge d'armement de fer",
+            "time": 780,
+            "builds": "epeefer",
+            "dependencies": {
+                "fer": 2,
+                "houille": 8
+            },
+            "finite": false
+        }
     }
 }

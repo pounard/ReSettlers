@@ -1,6 +1,6 @@
 <?php
 
-namespace ReSettlers;
+namespace ReSettlers\Component;
 
 /**
  * Reprensation of a full worker tree needed for building a specific resource.
@@ -81,7 +81,7 @@ class WorkerSet
 
     /**
      * Get current node worker.
-     * @return ReSettlers\Worker
+     * @return ReSettlers\Component\Worker
      */
     public function getWorker()
     {
@@ -118,6 +118,6 @@ class WorkerSet
 
     public function __toString()
     {
-        return $this->worker->getName() . " (" . $this->level . ")";
+        return $this->worker . " (" . $this->level . ")";
     }
 }

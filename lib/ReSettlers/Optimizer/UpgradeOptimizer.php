@@ -2,7 +2,7 @@
 
 namespace ReSettlers\Optimizer;
 
-use ReSettlers\WorkerSet;
+use ReSettlers\Component\WorkerSet;
 
 class UpgradeOptimizer extends AbstractOptimizer
 {

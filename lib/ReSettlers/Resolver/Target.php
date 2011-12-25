@@ -1,12 +1,14 @@
 <?php
 
-namespace ReSettlers;
+namespace ReSettlers\Resolver;
 
-class ResolverOption
+use ReSettlers\Component\Resource;
+
+class Target
 {
     /**
      * Resource to build.
-     * @var ReSettlers\Resource
+     * @var ReSettlers\Component\Resource
      */
     protected $resource;
 
@@ -18,9 +20,10 @@ class ResolverOption
 
     /**
      * Get resource.
-     * @return ReSettlers\Resource
+     * @return ReSettlers\Component\Resource
      */
-    public function getResource() {
+    public function getResource()
+    {
         return $this->resource;
     }
 
@@ -28,11 +31,13 @@ class ResolverOption
      * Get count.
      * @return int
      */
-    public function getCount() {
+    public function getCount()
+    {
         return $this->count;
     }
 
-    public function __construct(Resource $resource, $count = 1) {
+    public function __construct(Resource $resource, $count = 1)
+    {
         $this->resource = $resource;
         $this->count = $count;
     }
