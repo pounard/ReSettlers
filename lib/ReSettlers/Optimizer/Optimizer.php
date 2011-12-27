@@ -2,6 +2,8 @@
 
 namespace ReSettlers\Optimizer;
 
+use ReSettlers\Profile\Profile;
+
 interface Optimizer
 {
     /**
@@ -17,8 +19,8 @@ interface Optimizer
     public function getDefaultOptions();
 
     /**
-     * Optimize working chain.
-     * @param array $workingChain Array of WorkerSet instances.
+     * Optimize worker profile.
+     * @param ReSettlers\Profile\Profile $profile
      */
-    public function optimize(array $workerChain);
+    public function optimize(Profile $profile);
 }

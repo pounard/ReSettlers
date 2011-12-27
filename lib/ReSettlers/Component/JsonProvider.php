@@ -82,7 +82,13 @@ class JsonProvider extends AbstractProvider
                     throw new \RuntimeException("Worker $key has no built resource set or built resource is not a valid string.");
                 }
 
-                $this->workers[$key] = new Worker($key, $resdata['name'], $this->getResourceByKey($resdata['builds']), $resdata['time'], $dependencies);
+                if (isset($resdata['finite'])) {
+                    $finite = (bool)$resdata['finite'];
+                } else {
+                    $finite = false;
+                }
+
+                $this->workers[$key] = new Worker($key, $resdata['name'], $this->getResourceByKey($resdata['builds']), $resdata['time'], $dependencies, $finite);
             } else {
                 throw new \RuntimeException("Worker $key does not exists");
             }

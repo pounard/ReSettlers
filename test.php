@@ -25,7 +25,7 @@ spl_autoload_register(function ($className) {
 $provider = new JsonProvider(__DIR__ . '/resources/resources.json');
 
 /*
- * Sapin/Houille/Arc SaucisseVolante
+ * Sapin/Houille/Arc SV
  *
 $resolver = new Resolver(array(
     new Target($provider->getResourceByKey('arc'), 2),
@@ -35,7 +35,7 @@ $resolver = new Resolver(array(
  */
 
 /*
- * Sapin/Houille/Arc PonchoVire
+ * Sapin/Houille/Arc PV
  *
 $resolver = new Resolver(array(
     new Target($provider->getResourceByKey('arc'), 2),
@@ -45,7 +45,7 @@ $resolver = new Resolver(array(
  */
 
 /*
- * Pain/Vin/Cheval PonchoVire
+ * Pain/Vin/Cheval PV
  *
 $resolver = new Resolver(array(
     new Target($provider->getResourceByKey('pain'), 2),
@@ -56,13 +56,13 @@ $resolver = new Resolver(array(
 
 $resolver = new Resolver(array(
     //new Target($provider->getResourceByKey('epeefer'), 1),
-    //new Target($provider->getResourceByKey('outil'), 2),
-    //new Target($provider->getResourceByKey('epeebronze'), 2),
+    new Target($provider->getResourceByKey('outil'), 4),
+    new Target($provider->getResourceByKey('epeebronze'), 4),
     //new Target($provider->getResourceByKey('planchesapin'), 2),
-    new Target($provider->getResourceByKey('biere'), 4),
-    new Target($provider->getResourceByKey('pain'), 2),
-    new Target($provider->getResourceByKey('cheval'), 1),
-    //new Target($provider->getResourceByKey('planchefeuillu'), 5),
+    //new Target($provider->getResourceByKey('biere'), 4),
+    //new Target($provider->getResourceByKey('pain'), 2),
+    //new Target($provider->getResourceByKey('cheval'), 1),
+    //new Target($provider->getResourceByKey('planchefeuillu'), 2),
     //new Target($provider->getResourceByKey('houille'), 10),
     //new Target($provider->getResourceByKey('arc'), 1),
 ));
@@ -72,10 +72,14 @@ $optimizer = new UpgradeOptimizer();
 $optimizer->setOptions(array(
     'workerMaximumLevel' => 3,
 ));
-$chain = $resolver->find();
-$optimizer->optimize($chain);
+$profile = $resolver->find();
+$optimizer->optimize($profile);
 
-foreach ($chain as $workerSet) {
-    print " - " . $workerSet->getFinalCount() . " x " . $workerSet . "\n";
+print "Profile counts " . $profile->getBuildingCount() . " buildings.\n";
+
+foreach ($profile as $multiSet) {
+    foreach ($multiSet as $levelSet) {
+        print $levelSet->getBuildingCount() . " x " . $levelSet . "\n";
+    }
 }
 

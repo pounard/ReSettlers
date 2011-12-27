@@ -2,7 +2,9 @@
 
 namespace ReSettlers\Optimizer;
 
-use ReSettlers\Component\WorkerSet;
+use ReSettlers\Profile\LeveledWorkerSet;
+
+use ReSettlers\Profile\Profile;
 
 class UpgradeOptimizer extends AbstractOptimizer
 {
@@ -15,43 +17,68 @@ class UpgradeOptimizer extends AbstractOptimizer
         );
     }
 
-    public function optimize(array $workerChain)
+    /**
+     * Find next revelant upgrade inside the given bounds for the given
+     * WorkerSet.
+     * @param ReSettlers\Profile\LeveledWorkerSet $workerSet
+     * @param int $max
+     * @return array First value is new count, second is new building count.
+     */
+    protected function findNextRevelantUpgrade(LeveledWorkerSet $workerSet)
+    {
+        $max = $this->options['workerMaximumLevel'];
+
+        $currentBuildingCount = $workerSet->getBuildingCount();
+        $currentLevel = $workerSet->getLevel();
+
+        $foundLevel = NULL;
+        $foundBuildingCount = $currentBuildingCount;
+
+        for ($level = $currentLevel + 1; $level <= $max; ++$level) {
+
+            $newBuildingCount = ceil(($currentBuildingCount * $currentLevel) / ($level));
+
+            if ($newBuildingCount < $foundBuildingCount) {
+                $foundLevel = $level;
+                $foundBuildingCount = $newBuildingCount;
+            }
+        }
+
+        return array($foundLevel, $foundBuildingCount);
+    }
+
+    public function optimize(Profile $profile)
     {
         $remaining = $this->options['workerMaximumUpgrades'];
         $neverUpdate = $this->options['neverUpgrade'];
-        $maximumLevel = $this->options['workerMaximumLevel'];
-
-        $workerChain = array_filter($workerChain, function ($workerSet) use ($neverUpdate) {
-            return !in_array($workerSet->getWorker()->getResource()->getKey(), $neverUpdate);
-        });
-
-        uasort($workerChain, function ($a, $b) {
-            return $b->getFinalCount() - $a->getFinalCount();
-        });
 
         do {
             $break = $remaining;
 
-            foreach ($workerChain as $key => $workerSet) {
-                $count = $workerSet->getFinalCount();
+            foreach ($profile as $multiWorkerSet) {
 
-                if (
-                    // No upgrade needed.
-                    $count > 1 &&
-                    // We have enough upgrades remaining.
-                    $count <= $remaining
-                ){
-                    // The worker did not reach the maximum allowed upgrades.
-                    $nextRevelantupgrade = $workerSet->getNextRevelantUpgrade();
+                $worker = $multiWorkerSet->getWorker();
 
-                    if (WorkerSet::UPGRADE_IRREVELANT !== $nextRevelantupgrade &&
-                        $nextRevelantupgrade <= $maximumLevel
+                foreach ($multiWorkerSet as $levelWorkerSet) {
+
+                    $levelBuildingCount = $levelWorkerSet->getBuildingCount();
+                    $level = $levelWorkerSet->getLevel();
+
+                    if (
+                        // Do not upgrade finite workers.
+                        $worker->isFinite() ||
+                        // No upgrade needed.
+                        $levelBuildingCount == 1
                     ){
-                        $workerSet->upgrade();
-                        $remaining -= floor($count);
-                    } else {
-                        // Do not attempt this building upgrade anymore.
-                        unset($workerChain[$key]);
+                        continue;
+                    }
+
+                    list($nextLevel, $newBuildingCount) = $this->findNextRevelantUpgrade($levelWorkerSet);
+
+                    if (null !== $nextLevel && $levelBuildingCount <= $remaining) {
+                        $multiWorkerSet->addWorkers($newBuildingCount, $nextLevel);
+                        $multiWorkerSet->removeWorkers($levelBuildingCount, $level);
+                        $remaining -= $levelBuildingCount;
                     }
                 }
             }

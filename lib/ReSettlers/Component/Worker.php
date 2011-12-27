@@ -23,6 +23,11 @@ class Worker extends Component
     protected $dependencies;
 
     /**
+     * @var bool
+     */
+    protected $finite = false;
+
+    /**
      * Get which resource this worker build per cycle.
      * @return ReSettlers\Component\Resource
      */
@@ -50,17 +55,30 @@ class Worker extends Component
     }
 
     /**
+     * Tell if the current worker will have to be rebuilt once resource has
+     * been emptied.
+     * @return bool
+     */
+    public function isFinite()
+    {
+        return $this->finite;
+    }
+
+    /**
      * Default constructor.
      * @param int|string $key
      * @param string $name
      * @param Resource $resource
      * @param int $cycleDuration Cycle duration in seconds
+     * @param bool $finite Tell if the current worker needs to be rebuilt once
+     * resource has been emptied.
      */
-    public function __construct($key, $name, Resource $resource, $cycleDuration, array $dependencies = array())
+    public function __construct($key, $name, Resource $resource, $cycleDuration, array $dependencies = array(), $finite = false)
     {
         parent::__construct($key, $name);
         $this->resource = $resource;
         $this->cycleDuration = $cycleDuration;
         $this->dependencies = $dependencies;
+        $this->finite = $finite;
     }
 }

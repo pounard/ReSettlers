@@ -75,7 +75,7 @@
     },
     "workers": {
         "carrierepierre": {
-            "name": "Carrière de pierre",
+            "name": "Carrière",
             "time": 390,
             "builds": "pierre",
             "finite": false

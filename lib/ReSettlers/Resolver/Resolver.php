@@ -6,8 +6,7 @@ use ReSettlers\Component\Resource;
 use ReSettlers\Component\Provider;
 use ReSettlers\Component\ProviderAware;
 use ReSettlers\Component\Worker;
-use ReSettlers\Component\WorkerSet;
-use ReSettlers\Component\WorkerCollection;
+use ReSettlers\Profile\Profile;
 
 /**
  * Given a single resource, resolve the time for build one unit and the best
@@ -21,28 +20,18 @@ class Resolver implements ProviderAware
     protected $provider;
 
     /**
-     * Needed count of resource.
-     * @var int
+     * @var ReSettlers\Profile\Profile
      */
-    protected $count;
+    protected $profile;
 
-    /**
-     * @var array Array of ReSettlers\Component\WorkerSet
-     */
-    protected $workerChain;
-
-    /**
-     * Resources for which we will never trigger a worker upgrade during
-     * optimization. Mainly for edges.
-     * @var array
-     */
-    protected $neverUpgrade = array();
-
-    public function setProvider(Provider $provider) {
+    public function setProvider(Provider $provider)
+    {
+        $this->profile = null;
         $this->provider = $provider;
     }
 
-    public function getProvider() {
+    public function getProvider()
+    {
         if (isset($this->provider)) {
             return $this->provider;
         } else {
@@ -64,11 +53,7 @@ class Resolver implements ProviderAware
             throw new \RuntimeException("No worker found for resource " . $resource->getKey());
         }
 
-        if (isset($this->workerChain[$resKey])) {
-            $this->workerChain[$resKey]->increment($count);
-        } else {
-            $this->workerChain[$resKey] = new WorkerSet($worker, $count);
-        }
+        $this->profile->addWorkers($worker, $count);
 
         foreach ($worker->getDependencies() as $dependency) {
             $neededResource = $dependency->getResource();
@@ -81,12 +66,13 @@ class Resolver implements ProviderAware
 
     /**
      * Find the full ressource chain needed to build this resource.
-     * @return ReSettlers\WorkerChain
+     * @return ReSettlers\Profile\Profile
      */
     public function find()
     {
-        if (!isset($this->workerChain)) {
-            $this->workerChain = array();
+        if (!isset($this->profile)) {
+            $this->profile = new Profile();
+            $this->profile->setProvider($this->getProvider());
 
             // Ensure we wont hit a null instance during the resolve algorithm.
             $this->getProvider();
@@ -95,16 +81,7 @@ class Resolver implements ProviderAware
                 $this->resolveDependencies($target->getResource(), $target->getCount());
             }
         }
-        return $this->workerChain;
-    }
-
-    /**
-     * Set options.
-     * @param array $options Set of options for computation.
-     */
-    public function setOptions(array $options)
-    {
-        $this->workerChain = null;
+        return $this->profile;
     }
 
     /**
