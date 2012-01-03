@@ -103,20 +103,29 @@ class Profile implements ProviderAware, \IteratorAggregate, \Serializable
     public function getCapacity(Resource $resource)
     {
         $ret = 0;
-        $workers = $this->getProvider()->getWorkersForResource($resource);
 
-        foreach ($workers as $worker) {
-
-            $key = $worker->getKey();
-
-            if (isset($this->workers[$key])) {
-                foreach ($this->workers[$key] as $level => $count) {
-                    $ret += ($level * $count / $worker->getCycleDuration()); 
-                }
+        foreach ($this->workers as $multiLevelWorker) {
+            if ($resource === $multiLevelWorker->getResource()) {
+                $ret += $multiLevelWorker->getCapacity();
             }
         }
 
         return $ret;
+    }
+
+    /**
+     * Get consumption of a specific resource (number of units per second).
+     * @param ReSettlers\Component\Resource $resource
+     */
+    public function getConsumption(Resource $resource)
+    {
+        $consumption = 0;
+
+        foreach ($this->workers as $multiLevelWorker) {
+            $consumption += $multiLevelWorker->getConsumption($resource);
+        }
+
+        return $consumption;
     }
 
     /**
@@ -155,11 +164,11 @@ class Profile implements ProviderAware, \IteratorAggregate, \Serializable
 
     public function serialize()
     {
-        throw new \Exception("Not implement yet");
+        throw new \Exception("Profiles can not be serialized");
     }
 
     public function unserialize($serialized)
     {
-        throw new \Exception("Not implement yet");
+        throw new \Exception("Profiles can not be unserialized");
     }
 }

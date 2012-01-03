@@ -3,7 +3,6 @@
 namespace ReSettlers\Optimizer;
 
 use ReSettlers\Profile\LeveledWorkerSet;
-
 use ReSettlers\Profile\Profile;
 
 class UpgradeOptimizer extends AbstractOptimizer

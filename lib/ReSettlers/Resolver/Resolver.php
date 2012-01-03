@@ -57,9 +57,10 @@ class Resolver implements ProviderAware
 
         foreach ($worker->getDependencies() as $dependency) {
             $neededResource = $dependency->getResource();
+            $dependencyWorker = array_shift($this->provider->getWorkersForResource($neededResource));
             // The heart of this algorithm is a simple cross multiplication. No
             // complexity lies in here.
-            $neededWorkers = ($worker->getCycleDuration() / $worker->getCycleDuration()) * $dependency->getCount() * $count;
+            $neededWorkers = ceil(($dependencyWorker->getCycleDuration() / $worker->getCycleDuration()) * $dependency->getCount() * $count);
             $this->resolveDependencies($neededResource, $neededWorkers);
         }
     }

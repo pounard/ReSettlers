@@ -55,16 +55,16 @@ $resolver = new Resolver(array(
  */
 
 $resolver = new Resolver(array(
-    //new Target($provider->getResourceByKey('epeefer'), 1),
+    new Target($provider->getResourceByKey('epeefer'), 1),
     new Target($provider->getResourceByKey('outil'), 4),
     new Target($provider->getResourceByKey('epeebronze'), 4),
     //new Target($provider->getResourceByKey('planchesapin'), 2),
-    //new Target($provider->getResourceByKey('biere'), 4),
     //new Target($provider->getResourceByKey('pain'), 2),
-    //new Target($provider->getResourceByKey('cheval'), 1),
+    //new Target($provider->getResourceByKey('biere'), 2),
+    //new Target($provider->getResourceByKey('cheval'), 2),
     //new Target($provider->getResourceByKey('planchefeuillu'), 2),
     //new Target($provider->getResourceByKey('houille'), 10),
-    //new Target($provider->getResourceByKey('arc'), 1),
+    new Target($provider->getResourceByKey('arc'), 1),
 ));
 
 $resolver->setProvider($provider);

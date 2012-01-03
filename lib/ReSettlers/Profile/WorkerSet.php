@@ -2,6 +2,7 @@
 
 namespace ReSettlers\Profile;
 
+use ReSettlers\Component\Resource;
 use ReSettlers\Component\Worker;
 
 abstract class WorkerSet
@@ -48,6 +49,24 @@ abstract class WorkerSet
     public function getCapacity()
     {
         return $this->getCount() / $this->worker->getCycleDuration(); 
+    }
+
+    /**
+     * Get consumption of a specific resource (number of units per second).
+     * @param ReSettlers\Component\Resource $resource
+     */
+    public function getConsumption(Resource $resource)
+    {
+        $count = $this->getCount();
+        $consumed = 0;
+
+        foreach ($this->worker->getDependencies() as $dependency) {
+            if ($resource === $dependency->getResource()) {
+                $consumed += $dependency->getCount();
+            }
+        }
+
+        return ($count * $consumed) / $this->worker->getCycleDuration();
     }
 
     /**

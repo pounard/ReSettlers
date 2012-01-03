@@ -49,15 +49,6 @@ class LeveledWorkerSet extends WorkerSet
     }
 
     /**
-     * Tell if upgrade the buildings is revelant.
-     * @return bool
-     */
-    public function upgradeIsRevelant()
-    {
-        return true; // FIXME
-    }
-
-    /**
      * Get current worker set worker augment level.
      * @return int
      */
