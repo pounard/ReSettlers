@@ -114,6 +114,16 @@ class Profile implements ProviderAware, \IteratorAggregate, \Serializable
     }
 
     /**
+     * Get capacity for the given resource after consumption.
+     * @param ReSettlers\Component\Resource $resource
+     * @return float Can be negative
+     */
+    public function getNetCapacity(Resource $resource)
+    {
+        return $this->getCapacity($resource) - $this->getConsumption($resource);
+    }
+
+    /**
      * Get consumption of a specific resource (number of units per second).
      * @param ReSettlers\Component\Resource $resource
      */

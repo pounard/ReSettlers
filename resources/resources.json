@@ -7,19 +7,32 @@
             "name": "Eau"
         },
         "pierre": {
-            "name": "Pierre"
+            "name": "Pierre",
+            "searchtime": 300,
+            "quantity": 800
         },
         "marbre": {
-            "name": "Marbre"
+            "name": "Marbre",
+            "searchtime": 1800,
+            "quantity": 340
         },
         "granit": {
             "name": "Granit"
         },
+        "mineraior": {
+            "name": "Minerai d'or",
+            "searchtime": 7200,
+            "quantity": 300
+        },
         "cuivre": {
-            "name": "Cuivre"
+            "name": "Cuivre",
+            "searchtime": 1800,
+            "quantity": 710
         },
         "mineraifer": {
-            "name": "Minerai de fer"
+            "name": "Minerai de fer",
+            "searchtime": 3600,
+            "quantity": 500
         },
         "sapin": {
             "name": "Sapin"
@@ -71,6 +84,15 @@
         },
         "epeefer": {
             "name": "Épée de fer"
+        },
+        "viande": {
+            "name": "Viande"
+        },
+        "saucisse": {
+            "name": "Saucisse"
+        },
+        "poisson": {
+            "name": "Poisson"
         }
     },
     "workers": {
@@ -92,17 +114,37 @@
             "builds": "cereale",
             "finite": false
         },
+        "chasseur": {
+            "name": "Cabane de chasseur",
+            "time": 420,
+            "builds": "viande",
+            "finite": false
+        },
+        "pecherie": {
+            "name": "Pêcherie",
+            "time": 300,
+            "builds": "poisson",
+            "finite": false
+        },
+        "boucherie": {
+            "name": "Boucherie",
+            "time": 780,
+            "builds": "saucisse",
+            "finite": false
+        },
         "puit1": {
             "name": "Puit I",
             "time": 150,
             "builds": "eau",
-            "finite": true
+            "finite": true,
+            "quantity": 1000
         },
         "puit2": {
             "name": "Puit II",
             "time": 150,
             "builds": "eau",
-            "finite": true
+            "finite": true,
+            "quantity": 1500
         },
         "minecuivre": {
             "name": "Mine de cuivre",

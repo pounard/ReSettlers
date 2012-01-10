@@ -38,7 +38,27 @@ class JsonProvider extends AbstractProvider
                     throw new \RuntimeException("Resource $key has no human readable name or name is not a valid string.");
                 }
 
-                $this->resources[$key] = new Resource($key, $resdata['name']);
+                if (isset($resdata['searchtime'])) {
+                    if (is_int($resdata['searchtime'])) {
+                        $searchTime = $resdata['searchtime'];
+                    } else {
+                        throw new \RuntimeException("Search time must be an int");
+                    }
+                } else {
+                    $searchTime = 0;
+                }
+
+                if (isset($resdata['quantity'])) {
+                    if (is_int($resdata['quantity'])) {
+                        $depositUnitCount = $resdata['quantity'];
+                    } else {
+                        throw new \RuntimeException("Deposit quantity must be an int");
+                    }
+                } else {
+                    $depositUnitCount = 0;
+                }
+
+                $this->resources[$key] = new Resource($key, $resdata['name'], $searchTime, $depositUnitCount);
             } else {
                 throw new \RuntimeException("Resource $key does not exists");
             }

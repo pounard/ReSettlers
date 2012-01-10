@@ -40,14 +40,33 @@ class Resolver implements ProviderAware
     }
 
     /**
-     * Resolve dependencies of a single resource.
-     * @param ReSettlers\Component\Resource
+     * Find best worker for the given resource.
+     * @param ReSettlers\Component\Resource $resource
+     * @return ReSettlers\Component\Worker
      */
-    protected function resolveDependencies(Resource $resource, $count = 1)
+    protected function getBestWorkerForResource(Resource $resource)
     {
-        $resKey = $resource->getKey();
         // FIXME: Find a better worker lookup algorithm.
         $worker = array_shift($this->provider->getWorkersForResource($resource));
+        return $worker;
+    }
+
+    /**
+     * Resolve dependencies of a single resource.
+     * @param ReSettlers\Component\Resource
+     * @param ReSettlers\Component\Worker Optionnaly force a worker
+     */
+    protected function resolveDependencies(Resource $resource, $count = 1, Worker $worker = null)
+    {
+        $resKey = $resource->getKey();
+
+        if (isset($worker)) {
+            if ($worker->getResource() !== $resource) {
+                throw new \RuntimeException("Worker $worker can not build $resource");
+            }
+        } else {
+            $worker = $this->getBestWorkerForResource($resource);
+        }
 
         if (!$worker instanceof Worker) {
             throw new \RuntimeException("No worker found for resource " . $resource->getKey());
